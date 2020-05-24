@@ -1,0 +1,1 @@
+export const CDN_URL = 'https://d2s2wlfnj4s3ni.cloudfront.net';
