@@ -27,8 +27,8 @@ class SiderNavigation extends React.Component {
                         <Menu.Item key="4"><Link to="/standing?conference=east">East</Link></Menu.Item>
                         <Menu.Item key="5"><Link to="/standing?conference=west">West</Link></Menu.Item>
                    </SubMenu>
-                   <Menu.Item key="6"><Link to="/players">Players</Link></Menu.Item>
-                   <Menu.Item key="7"><Link to="teams">Teams</Link></Menu.Item>
+                   <Menu.Item key="6"><Link to="/players?team=1">Players</Link></Menu.Item>
+                   <Menu.Item key="7"><Link to="/teams">Teams</Link></Menu.Item>
                 </Menu> 
             </Sider>
         );

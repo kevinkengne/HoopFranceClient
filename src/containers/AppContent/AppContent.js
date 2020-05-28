@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout } from 'antd';
+import { Layout, PageHeader } from 'antd';
 import AppFooter from '../../components/AppFooter/AppFooter';
 import ScoresContent from '../ScoresContent/ScoresContent';
 import ScheduleContent from '../ScheduleContent/ScheduleContent';
@@ -9,12 +9,12 @@ import PlayersContent from '../PlayersContent/PlayersContent';
 import TeamsContent from '../TeamsContent/TeamsContent';
 import { Route } from 'react-router-dom';
 
-const { Header, Content } = Layout;
+const {  Content } = Layout;
 
 const AppContent = () => {
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            <Header style = {{ padding: 0}}/>
+            <PageHeader/>
             <Content style={{ margin: '24px 16px 0', padding: '0 30px'}}>
                 <Route path="/scores" exact component={ScoresContent}/>
                 <Route path="/standing" component={StandingContent}/>

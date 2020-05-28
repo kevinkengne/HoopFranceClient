@@ -1,0 +1,22 @@
+.video-article-details {
+    padding: 8px 22px;
+}
+
+.video-article-thumb {
+    border-radius: 4px;
+    width: 30%;
+}
+
+.video-article-item {
+    align-self: center;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin: 0 auto;
+}
+
+.video-article-item:hover {
+    border: 2px solid #ff9999;
+    cursor: pointer;
+}

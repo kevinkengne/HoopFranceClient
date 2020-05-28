@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Layout, Card, Row, Col, Avatar, Statistic, Space, Divider } from 'antd';
-import { CDN_URL } from '../../Utils';
+import { Layout, Card, Row, Col, Avatar, Statistic, Space } from 'antd';
+import { CDN_URL, API_URL } from '../../Utils';
 import moment from 'moment';
 
 const ScoresContent = () => {
@@ -13,7 +13,7 @@ const ScoresContent = () => {
         
         const fetchData = async () => {
            try {
-                const scores = await axios('http://localhost:8000/scores');
+                const scores = await axios(`${API_URL}/scores`);
                 setScores(scores.data);
                 
            } catch (error) {

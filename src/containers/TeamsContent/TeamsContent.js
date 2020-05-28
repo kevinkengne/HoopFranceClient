@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, Row, Col, Card, Statistic, Button } from 'antd';
 import axios from 'axios';
-import { CDN_URL } from '../../Utils';
+import { CDN_URL, API_URL } from '../../Utils';
+import { Link } from 'react-router-dom';
 
 const { Meta } = Card;
 
@@ -13,8 +14,8 @@ const TeamsContent = () => {
         
         const fetchData = async () => {
            try {
-                const teams = await axios('http://localhost:8000/teams'); 
-                const standing = await axios('http://localhost:8000/standing');
+                const teams = await axios(`${API_URL}/teams`); 
+                const standing = await axios(`${API_URL}/standing`);
 
                 const result = teams.data.map( team => ({
                     team_id: team.team_id,
@@ -73,8 +74,8 @@ const TeamsContent = () => {
                                     </Row>
                                     <Row>
                                         <Col span={24}>
-                                            <Button type="link">Players</Button>
-                                            <Button type="link">Standing</Button>
+                                            <Button type="link"><Link to={`/players?team=${team.team_id}`}>Players</Link></Button>
+                                            <Button type="link"><Link to={`/standing?conference=${team.conf_name.toLowerCase()}`}>Standing</Link></Button>
                                         </Col>
                                     </Row>
                                 </Card>

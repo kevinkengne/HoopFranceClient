@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Table, Avatar } from 'antd';
-import { CDN_URL } from '../../Utils';
+import { CDN_URL, API_URL } from '../../Utils';
 import axios from 'axios';
 
 const StandingContent = (props) => {
@@ -65,8 +65,8 @@ const StandingContent = (props) => {
 
         const fetchData = async () => {
             try {
-                const teams = await axios('http://localhost:8000/teams'); 
-                const standing = await axios(`http://localhost:8000${props.location.pathname + props.location.search}`); 
+                const teams = await axios(`${API_URL}/teams`); 
+                const standing = await axios(`${API_URL}${props.location.pathname + props.location.search}`); 
                 let key = 0;
                 const dataSource = standing.data.map(standing => ({
                     key: ++key,
