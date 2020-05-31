@@ -1,6 +1,7 @@
 import React from 'react';
 import SiderNavigation from './components/SiderNavigation/SiderNavigation';
 import AppContent from './containers/AppContent/AppContent';
+import { withAuthentication } from './components/Session';
 import 'antd/dist/antd.css';
 import { Layout } from 'antd';
 import { BrowserRouter } from 'react-router-dom';
@@ -17,4 +18,4 @@ const App = () => {
   );
 }
 
-export default App;
+export default withAuthentication(App);
