@@ -27,9 +27,11 @@ class Firebase {
 
     user = uid => this.db.ref(`users/${uid}`);
 
-    player = uid => this.db.ref(`players/${uid}`);
+    favourite = uid => this.db.ref(`favourites/${uid}`);
 
-    players = userId => this.db.ref(`players`).child('user').equalsTo(userId);
+    favouritesByUser = userId => this.db.ref(`favourites`).orderByChild('userId').equalTo(userId);
+
+    favourites = userId => this.db.ref('favourites');
 
     // *** Merge Auth and DB User API *** //
     onAuthUserListener = (next, fallback) =>

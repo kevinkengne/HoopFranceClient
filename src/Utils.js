@@ -9,3 +9,7 @@ export const getName = (fullName) => {
         lastName : names[0]
     });
 };
+
+export const getPercentage = (n1, n2) => n1 / parseFloat(n2);
+
+export const getTeamPlayed = (home, away, playerTeam) => playerTeam === home ? away : home;

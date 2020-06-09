@@ -3,14 +3,18 @@ import axios from 'axios';
 import { Layout , Row, Col, Select, Tag } from 'antd';
 import PlayerCard from '../../components/PlayerCard/PlayerCard';
 import { API_URL, getName } from '../../Utils';
+import { withFirebase } from '../../components/Firebase';
+import { withUser } from '../../components/Session';
+import { compose } from 'recompose';
 
 const { Option } = Select;
 
 const PlayersContent = (props) => {
-
+   
     const [players, setPlayers] = useState([]);
     const [currentTeam, setCurrentTeam] = useState(props.location.pathname + props.location.search);
     const [teams, setTeams] = useState([]);
+    const [favourites, setFavourites] = useState([]);
 
     const handleChangeTeam = (value) => {
         const query = `?team=${value}`;
@@ -22,6 +26,30 @@ const PlayersContent = (props) => {
     };
 
     const getCurrentTeam = () => new URLSearchParams(props.location.search).get('team');
+
+    const handleAddFavourite = (player, user) => {
+        props.firebase.favourites().push({
+            playerId: player,
+            userId: user
+        });
+
+    }
+
+    const handleRemoveFavourite = (favouriteId) => {
+        props.firebase.favourite(favouriteId).remove();
+    }
+
+    const handleUpdateFavourite = (player, user) => {
+        const favourite = favourites.find(element => element.playerId === player);
+
+        if (favourite) {
+            handleRemoveFavourite(favourite.id);
+        } else {
+            handleAddFavourite(player, user);
+        }
+    }
+
+    const isPlayerAdded = (playerId) => favourites.some(element => element.playerId === playerId);
  
     useEffect(() => {
         
@@ -31,7 +59,6 @@ const PlayersContent = (props) => {
                 const teams = await axios(`${API_URL}/teams`);
                 setTeams(teams.data);
                 setPlayers(players.data);
-                
            } catch (error) {
                console.log(error);
            }      
@@ -40,6 +67,29 @@ const PlayersContent = (props) => {
         fetchData();
     }, [currentTeam]);
 
+    useEffect(() => {
+        const getFavourites = () => {
+
+            if (!props.user) return;
+
+            props.firebase.favouritesByUser(props.user.uid)
+                .on('value', snapshot => {
+                    if (snapshot && snapshot.exists()) {
+                        //Set values in state which can be extracted in jsx in render.
+                        const result = snapshot.val();
+                        const resultList = Object.keys(result).map(key => ({
+                            ...result[key],
+                            id: key
+                        }));
+                       
+                        setFavourites(resultList); 
+                     };
+    
+                });   
+        };
+
+        getFavourites();
+    }, [props.firebase, props.user]);
 
     return (
         <Layout style={{ textAlign: 'center'}}>
@@ -76,7 +126,14 @@ const PlayersContent = (props) => {
                                         weight={player.weight}
                                         number={player.no}
                                         pos={player.pos}
-                                        dob={player.dob}/>
+                                        dob={player.dob}
+                                        user={props.user}
+                                        playerId={player.id}
+                                        hasAddFavourite={true}
+                                        hasStats={false}
+                                        api={player.api}
+                                        isFavourite={isPlayerAdded(player.id)}
+                                        onUpdateFavourite={handleUpdateFavourite}/>
                                 </div>
                         </Col>
                     ))}
@@ -85,4 +142,7 @@ const PlayersContent = (props) => {
     );
 }
 
-export default PlayersContent;
+export default compose(
+    withFirebase,
+    withUser
+)(PlayersContent);

@@ -23,8 +23,9 @@ const StandingContent = (props) => {
             key: 'team',
             render: team => (
                 <span>
-                    <Avatar src={`${CDN_URL}/TeamLogos/${team.substring(0,3)}_logo.svg`}
-                    size="large"/>
+                    <Avatar 
+                        src={`${CDN_URL}/TeamLogos/${team.substring(0,3)}_logo.svg`}
+                        size="large"/>
                     <span style={{ paddingLeft: '8px'}}>{team.substring(3)}</span>
                 </span>       
             )
